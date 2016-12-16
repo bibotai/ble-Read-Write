@@ -1,5 +1,4 @@
-// var noble = require('noble');
-import {noble} from 'noble';
+var noble = require('noble');
 state = "poweredOn"
 noble.on('stateChange', callback(state));
 
