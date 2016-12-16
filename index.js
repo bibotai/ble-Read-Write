@@ -1,7 +1,8 @@
 var noble = require('noble');
-state = "poweredOn"
 noble.on('stateChange', function (state) {
-    console.log(state);
+    if (state === 'poweredOn') {
+        noble.startScanning();
+    } else {
+        noble.stopScanning();
+    }
 });
-
-noble.startScanning(); // any service UUID, no duplicates
