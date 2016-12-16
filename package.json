@@ -1,0 +1,22 @@
+{
+  "name": "bledemo",
+  "version": "1.0.0",
+  "description": "use noble to read and write ble devices",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bibotai/ble-Read-Write.git"
+  },
+  "keywords": [
+    "ble"
+  ],
+  "author": "bibotai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bibotai/ble-Read-Write/issues"
+  },
+  "homepage": "https://github.com/bibotai/ble-Read-Write#readme"
+}
