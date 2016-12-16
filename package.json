@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/bibotai/ble-Read-Write/issues"
   },
-  "homepage": "https://github.com/bibotai/ble-Read-Write#readme"
+  "homepage": "https://github.com/bibotai/ble-Read-Write#readme",
+  "dependencies": {
+    "noble": "^1.7.0"
+  }
 }
