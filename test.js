@@ -129,16 +129,15 @@ function explore(peripheral) {
                                                 console.log("characteristic.uuid:" + characteristics[characteristicIndex].uuid);
 
 
-                                                characteristic.on('data', function(data, isNotification){
-                                                    console.log("data-isNotification:" + data + "," + isNotification);
-                                                    callback();
-                                                });
-
-                                                characteristic.on('read', function(data, isNotification){
-                                                    console.log("read-isNotification:" + data + "," + isNotification);
-                                                    callback();
-                                                });
-
+                                                //characteristic.on('data', function(data, isNotification){
+                                                //    console.log("data-isNotification:" + data + "," + isNotification);
+                                                //    callback();
+                                                //});
+                                                //
+                                                //characteristic.on('read', function(data, isNotification){
+                                                //    console.log("read-isNotification:" + data + "," + isNotification);
+                                                //    callback();
+                                                //});
 
 
                                                 if (characteristics[characteristicIndex].uuid === '7365642e6a6975616e2e414d56313200') {
@@ -161,11 +160,11 @@ function explore(peripheral) {
                                                             characteristic.write(new Buffer([0xb0, 0x11, 0x11, 0x01, 0xaa, 0xfa, 0x51, 0x52, 0x03, 0x5e, 0x63, 0x49, 0x3d, 0x42, 0x68, 0x1e, 0x08, 0x45, 0x54, 0x0c]),
                                                                 false, function (error) {
                                                                     console.log("write:" + "," + error);
-                                                                    //characteristic.on('read', function (data, isNotification) {
-                                                                    //    var result = data.readUInt8(0);
-                                                                    //    console.log("read:" + data + "," + error + "," + result + "," + isNotification);
-                                                                    //});
-                                                                    //
+                                                                    characteristic.on('read', function (data, isNotification) {
+                                                                        var result = data.readUInt8(0);
+                                                                        console.log("isNotification:" + data + "," + error + "," + result + "," + isNotification);
+                                                                    });
+
                                                                     //characteristic.subscribe(function (err) {
                                                                     //    characteristic.write(new Buffer([0xb0, 0x06, 0x10, 0x03, 0xaa, 0x24, 0x58, 0x09, 0x42]),
                                                                     //        false, function (err) {
@@ -174,6 +173,13 @@ function explore(peripheral) {
                                                                     //            }
                                                                     //        });
                                                                     //});
+
+
+                                                                    characteristic.subscribe(function (error) {
+                                                                        characteristic.on('data', function (data, isNotification) {
+                                                                            console.log('bake error:'+data+","+isNotification);
+                                                                        });
+                                                                    });
 
                                                                     callback();
                                                                 });
