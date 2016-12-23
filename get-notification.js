@@ -30,8 +30,8 @@ function explore(peripheral) {
         process.exit(0);
     });
 
-    peripheral.on('writeHandle', function (data) {
-        console.log("writeHandle data:" + data);
+    peripheral.on('handleWrite' + 0x0015, function () {
+        console.log("writeHandle data!");
     });
 
 
