@@ -1,12 +1,13 @@
 var noble = require('noble');
-import {scanDevice} from './blescan';
+import {scanDevice, promise} from './blescan';
 
 export const sendData = (macAddress, command) => {};
 
 export const discoveryServices = (macAddress) => {
     //先扫描是否存在这个设备
     console.log(scanDevice(macAddress));
-    scanDevice(macAddress).then((peripheral) => {
+    console.log(scanDevice(promise));
+    promise.then((peripheral) => {
         console.log('then')
         if (peripheral) {
             console.log(peripheral);
