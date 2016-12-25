@@ -63,7 +63,7 @@ export const setNoifty = (characteristics, isListing) => {
                 if (error) {
                     reject(error);
                 } else {
-                    console.log(`characteristic ${characteristicsUuid} noifty set to ${isListing}`);
+                    console.log(`characteristic ${characteristics.uuid} noifty set to ${isListing}`);
                     resolve(true)
                 }
             });
