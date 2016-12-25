@@ -2,7 +2,7 @@ var noble = require('noble');
 
 export const sendData = ({macAddress, command}) => {};
 
-const discoveryServices = ({macAddress}) => {
+export const discoveryServices = ({macAddress}) => {
     peripheral
         .connect(function (error) {
             // console.log('connected to peripheral: ' + peripheral.uuid);
