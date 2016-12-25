@@ -8,6 +8,7 @@ discoveryOneServices(peripheralIdOrAddress, '636f6d2e6a6975616e2e414d56313200').
         console.log(error)
     }).then((characteristic) => {
         setNoifty(characteristic, true).then(discoveryOneCharacteristics(service, '7265632e6a6975616e2e414d56313200',).then((writecharacteristic) => {
+            console.log(writecharacteristic);
             writeCharacteristics(writecharacteristic, new Buffer([
                 0xb0,
                 0x11,
