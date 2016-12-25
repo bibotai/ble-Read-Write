@@ -8,6 +8,7 @@ discoveryOneServices(peripheralIdOrAddress, '636f6d2e6a6975616e2e414d56313200').
     discoveryOneCharacteristics(service, '7265632e6a6975616e2e414d56313200', function (error) {
         console.log(error)
     }).then((characteristic) => {
+        console.log(characteristic.uuid)
         setNoifty(characteristic, true).then(discoveryOneCharacteristics(service, '7265632e6a6975616e2e414d56313200',).then((writecharacteristic) => {
             console.log(writecharacteristic);
             writeCharacteristics(writecharacteristic, new Buffer([
