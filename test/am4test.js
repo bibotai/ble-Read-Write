@@ -3,8 +3,8 @@ const peripheralIdOrAddress = process
     .argv[2]
     .toLowerCase();
 
-const notifyCharacteristic;
-const writeCharacteristic;
+const notifyCharacteristic = null;
+const writeCharacteristic = null;
 
 console.log(peripheralIdOrAddress);
 discoveryOneServices(peripheralIdOrAddress, '636f6d2e6a6975616e2e414d56313200').then((service) => {
