@@ -5,7 +5,7 @@ export const sendData = (macAddress, command) => {};
 
 export const discoveryServices = (macAddress, serviceUuidArr) => {
     const promise = new Promise(function (resolve, reject) {
-        console.log('start discoveringServices...');
+        console.log('start discoveringServices... ');
         // 先扫描是否存在这个设备 console.log(scanDevice(macAddress));
         scanDevice(macAddress).then((peripheral) => {
             if (peripheral) {
