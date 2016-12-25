@@ -7,18 +7,18 @@ export const discoveryServices = ({macAddress}) => {
         .on('discover', function (peripheral) {
             peripheral
                 .connect(function (error) {
-                    peripheral
-                        .connect(function (error) {
-                            // console.log('connected to peripheral: ' + peripheral.uuid);
-                            peripheral
-                                .discoverServices([], function (error, services) {
-                                    console.log(services.length);
-                                    services.map((service, index) => {
-                                        console.log(service.uuid);
-                                    })
-
+                    console.log('connected to peripheral: ' + peripheral.uuid);
+                    peripheral.connect(function (error) {
+                        // console.log('connected to peripheral: ' + peripheral.uuid);
+                        peripheral
+                            .discoverServices([], function (error, services) {
+                                console.log(services.length);
+                                services.map((service, index) => {
+                                    console.log(service.uuid);
                                 })
-                        })
+
+                            })
+                    })
                 })
         });
 };
