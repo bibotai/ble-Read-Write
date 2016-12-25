@@ -7,6 +7,10 @@ discoveryServices(peripheralIdOrAddress, ['636f6d2e6a6975616e2e414d56313200']).t
     discoveryCharacteristics(service, ['7365642e6a6975616e2e414d56313200'], function (error) {
         console.log(error)
     }).then((characteristics) => {
-        console.log(characteristics);
+        characteristics
+            .map(function (characteristic, index) {
+                console.log(`this is the ${index} characteristic,uuid:${ '' + characteristic.uuid}`);
+
+            });
     });
 });
