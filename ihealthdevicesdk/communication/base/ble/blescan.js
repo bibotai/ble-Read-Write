@@ -25,8 +25,6 @@ export function scanDevice(macAddress) {
             stopScan();
             console.log(`device ${macAddress} is found.`);
             return new Promise.resolve(peripheral);
-        } else {
-            return null;
         }
     });
 }
