@@ -13,3 +13,7 @@ export function startScan() {
             }
         });
 };
+
+export function stopScan() {
+    noble.stopScanning();
+}
