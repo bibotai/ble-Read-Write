@@ -57,6 +57,7 @@ export const discoveryOneCharacteristics = (service, characteristicsUuid) => {
 }
 
 export const setNoifty = (characteristics, isListing) => {
+    console.log('start setNoifty...');
     const promise = new Promise(function (resolve, reject) {
         characteristics
             .notify(true, function (error) {
