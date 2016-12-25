@@ -22,9 +22,12 @@ export const promise = new Promise(function (resolve, reject) {
     startScan();
     noble.on('discover', function (peripheral) {
         if (peripheral.id === '00:4d:32:07:90:4b' || peripheral.address === '00:4d:32:07:90:4b') {
-            stopScan();
-            console.log(`device 00:4d:32:07:90:4b is found.`);
-            return resolve(peripheral);
+            setTimeout(function () {
+                stopScan();
+                console.log(`device 00:4d:32:07:90:4b is found.`);
+                return resolve(peripheral);
+            }, 5000)
+
         } else {
             reject(new Error('not found'));
         }
