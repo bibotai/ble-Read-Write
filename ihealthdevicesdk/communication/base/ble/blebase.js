@@ -3,7 +3,7 @@ import {scanDevice} from './blescan';
 
 export const sendData = (macAddress, command) => {};
 
-export const discoveryServices = (macAddress, serviceUuidArr) => {
+export const discoveryOneServices = (macAddress, serviceUuid) => {
     const promise = new Promise(function (resolve, reject) {
         console.log('start discoveringServices... ');
         // 先扫描是否存在这个设备 console.log(scanDevice(macAddress));
@@ -17,20 +17,12 @@ export const discoveryServices = (macAddress, serviceUuidArr) => {
                         }
                         console.log('connected to device: ' + peripheral.uuid);
                         //查找服务
-                        peripheral.discoverServices(serviceUuidArr, function (error, services) {
+                        peripheral.discoverServices([serviceUuid], function (error, services) {
                             if (error) {
                                 reject(error);
                             } else {
-                                console.log(`services ${serviceUuidArr.join(',')} are found.`);
-
-                                service.discoverCharacteristics([], function (error, characteristics) {
-                                    characteristics
-                                        .map(function (characteristic, index) {
-                                            console.log(`this is the ${index} characteristic,uuid:${ '' + characteristic.uuid}`);
-
-                                        });
-                                })
-                                resolve(services);
+                                console.log(`services ${serviceUuid} is found.`);
+                                resolve(services[0]);
                             }
 
                         });
@@ -45,9 +37,9 @@ export const discoveryServices = (macAddress, serviceUuidArr) => {
     return promise;
 };
 
-export const discoveryCharacteristics = (service, characteristicsUuidArr) => {
+export const discoveryOneCharacteristics = (service, characteristicsUuid) => {
 
-    console.log('start discoveringCharacteristics...', service, characteristicsUuidArr);
+    console.log('start discoveringCharacteristics...');
     const promise = new Promise(function (resolve, reject) {
         //查找特性
         service
@@ -55,8 +47,8 @@ export const discoveryCharacteristics = (service, characteristicsUuidArr) => {
                 if (error) {
                     reject(error);
                 } else {
-                    console.log(`characteristic ${characteristicsUuidArr.join(',')} are found.`);
-                    resolve(characteristics);
+                    console.log(`characteristic ${characteristicsUuid} is found.`);
+                    resolve(characteristics[0]);
                 }
 
             });
