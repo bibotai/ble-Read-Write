@@ -27,6 +27,8 @@ export const discoveryServices = (macAddress) => {
         } else {
             console.log(`device ${macAddress} is not found.`);
         }
+    }, function (error) {
+        console.log(error);
     });
 
 };
