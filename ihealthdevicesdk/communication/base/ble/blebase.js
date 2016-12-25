@@ -39,7 +39,7 @@ export const discoveryServices = (macAddress, serviceUuidArr) => {
 
 export const discoveryCharacteristics = (service, characteristicsUuidArr) => {
 
-    console.log('start discoveringCharacteristics...');
+    console.log('start discoveringCharacteristics...', service, characteristicsUuidArr);
     const promise = new Promise(function (resolve, reject) {
         //查找特性
         service
