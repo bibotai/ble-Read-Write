@@ -1,6 +1,6 @@
 var noble = require('noble');
 
-export const startScan noble.on('stateChange', function (state) {
+export const startScan = noble.on('stateChange', function (state) {
     if (state === 'poweredOn') {
         console.log('poweredOn');
         noble.startScanning();
