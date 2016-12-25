@@ -5,40 +5,41 @@ export const sendData = (macAddress, command) => {};
 
 export const discoveryServices = (macAddress, serviceUuidArr) => {
     const promise = new Promise(function (resolve, reject) {
+        console.log('start discoveringServices...');
         // 先扫描是否存在这个设备 console.log(scanDevice(macAddress));
-        scanDevice(macAddress)
-            .then((peripheral) => {
-                console.log('then')
-                if (peripheral) {
-                    //连接设备（相当于gatttool的connect）
-                    peripheral
-                        .connect(function (error) {
+        scanDevice(macAddress).then((peripheral) => {
+            if (peripheral) {
+                //连接设备（相当于gatttool的connect）
+                peripheral
+                    .connect(function (error) {
+                        if (error) {
+                            console.log('an error occurred in peripheral.connect to: ' + peripheral.uuid);
+                        }
+                        console.log('connected to device: ' + peripheral.uuid);
+                        //查找服务
+                        peripheral.discoverServices(serviceUuidArr, function (error, services) {
                             if (error) {
-                                console.log('an error occurred in peripheral.connect to: ' + peripheral.uuid);
+                                reject(error);
+                            } else {
+                                console.log(`services ${serviceUuidArr.join(',')} are found.`);
+                                resolve(services);
                             }
-                            console.log('connected to device: ' + peripheral.uuid);
-                            //查找服务
-                            peripheral.discoverServices(serviceUuidArr, function (error, services) {
-                                if (error) {
-                                    reject(error);
-                                } else {
-                                    console.log(`services ${serviceUuidArr.join(',')} are found.`);
-                                    resolve(services);
-                                }
 
-                            });
                         });
-                } else {
-                    console.log(`device ${macAddress} is not found.`);
-                }
-            }, function (error) {
-                console.log('e');
-            });
+                    });
+            } else {
+                console.log(`device ${macAddress} is not found.`);
+            }
+        }, function (error) {
+            console.log('e');
+        });
     })
     return promise;
 };
 
 export const discoveryCharacteristics = (service, characteristicsUuidArr) => {
+
+    console.log('start discoveringCharacteristics...');
     const promise = new Promise(function (resolve, reject) {
         //查找特性
         service
