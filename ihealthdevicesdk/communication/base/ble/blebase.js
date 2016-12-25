@@ -1,10 +1,10 @@
 var noble = require('noble');
 import {startScan} from './blescan';
 
-startScan;
 export const sendData = (macAddress, command) => {};
 
 export const discoveryServices = (macAddress) => {
+    startScan();
     console.log(macAddress);
     noble.on('discover', function (peripheral) {
         peripheral
