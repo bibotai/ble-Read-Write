@@ -55,3 +55,33 @@ export const discoveryOneCharacteristics = (service, characteristicsUuid) => {
     });
     return promise;
 }
+
+export const setNoifty = (characteristics, isListing) => {
+    const promise = new Promise(function (resolve, reject) {
+        characteristics
+            .notify(true, function (error) {
+                if (error) {
+                    reject(error);
+                } else {
+                    console.log(`characteristic ${characteristicsUuid} noifty set to ${isListing}`);
+                    resolve(true)
+                }
+            });
+    });
+    return promise;
+}
+
+export const writeCharacteristics = (characteristics, data) => {
+    const promise = new Promise(function (resolve, reject) {
+        characteristics
+            .write(data, true, function (error) {
+                if (error) {
+                    reject(error);
+                } else {
+                    console.log(`write data ${data} to ${characteristics.uuid}`)
+                    resolve(true)
+                }
+            });
+    });
+    return promise;
+}
