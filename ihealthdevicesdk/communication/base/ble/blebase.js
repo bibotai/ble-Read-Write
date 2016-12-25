@@ -1,7 +1,7 @@
 var noble = require('noble');
 import {startScan} from './blescan';
 
-startScan();
+startScan;
 export const sendData = (macAddress, command) => {};
 
 export const discoveryServices = (macAddress) => {
