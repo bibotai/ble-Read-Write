@@ -1,14 +1,20 @@
-import {discoveryOneServices, discoveryOneCharacteristics, setNoifty, writeCharacteristics} from '../ihealthdevicesdk/communication/base/ble/blebase';
+import {discoveryOneServices, discoveryOneCharacteristics, setNoifty, writeCharacteristics, readCharacteristics} from '../ihealthdevicesdk/communication/base/ble/blebase';
 const peripheralIdOrAddress = process
     .argv[2]
     .toLowerCase();
+
+const notifyCharacteristic;
+const writeCharacteristic
 
 console.log(peripheralIdOrAddress);
 discoveryOneServices(peripheralIdOrAddress, '636f6d2e6a6975616e2e414d56313200').then((service) => {
     discoveryOneCharacteristics(service, '7265632e6a6975616e2e414d56313200', function (error) {
         console.log(error)
     }).then((characteristic) => {
+        this.notifyCharacteristic = characteristic;
+        readCharacteristics(notifyCharacteristic);
         setNoifty(characteristic, true).then(discoveryOneCharacteristics(service, '7365642e6a6975616e2e414d56313200',).then((characteristic) => {
+            this.writeCharacteristic = characteristic;
             writeCharacteristics(characteristic, new Buffer([
                 0xb0,
                 0x11,

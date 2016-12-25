@@ -85,3 +85,16 @@ export const writeCharacteristics = (characteristics, data) => {
     });
     return promise;
 }
+
+export const readCharacteristics = (characteristics) => {
+
+    characteristics
+        .on('read', function (data, isNotification) {
+            if (error) {
+                console.log(`an error occurred in readCharacteristics`)
+            } else {
+                console.log(`read data ${data} from ${characteristics.uuid}`)
+                return data;
+            }
+        });
+}
