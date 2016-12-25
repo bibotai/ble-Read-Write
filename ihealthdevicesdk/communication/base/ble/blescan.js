@@ -23,10 +23,10 @@ export const promise = new Promise(function (resolve, reject) {
     noble.on('discover', function (peripheral) {
         if (peripheral.id === '00:4d:32:07:90:4b' || peripheral.address === '00:4d:32:07:90:4b') {
             stopScan();
-            console.log(`device ${macAddress} is found.`);
+            console.log(`device 00:4d:32:07:90:4b is found.`);
             resolve(peripheral);
         } else {
-            reject(error);
+            reject(new Error('not found'));
         }
     });
 });
