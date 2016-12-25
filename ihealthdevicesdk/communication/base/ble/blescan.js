@@ -1,6 +1,6 @@
 var noble = require('noble');
 
-export function startScan() {
+function startScan() {
     noble
         .on('stateChange', function (state) {
             if (state === 'poweredOn') {
@@ -14,6 +14,19 @@ export function startScan() {
         });
 };
 
-export function stopScan() {
+function stopScan() {
     noble.stopScanning();
+}
+
+export function scanDevice(macAddress) {
+    startScan();
+    noble.on('discover', function (peripheral) {
+        if (peripheral.id === macAddress || peripheral.address === macAddress) {
+            stopScan();
+            console.log(`device ${macAddress} is found.`);
+            return peripheral;
+        } else {
+            return null;
+        }
+    });
 }

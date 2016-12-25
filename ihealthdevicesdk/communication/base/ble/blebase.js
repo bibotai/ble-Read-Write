@@ -1,27 +1,26 @@
 var noble = require('noble');
-import {startScan, stopScan} from './blescan';
+import {scanDevice} from './blescan';
 
 export const sendData = (macAddress, command) => {};
 
 export const discoveryServices = (macAddress) => {
-    startScan();
-    noble.on('discover', function (peripheral) {
-        if (peripheral.id === macAddress || peripheral.address === macAddress) {
-            stopScan();
-            console.log(`device ${macAddress} is found.`);
-            peripheral.connect(function (error) {
-                console.log('connected to peripheral: ' + peripheral.uuid);
-                peripheral.connect(function (error) {
-                    // console.log('connected to peripheral: ' + peripheral.uuid);
-                    peripheral
-                        .discoverServices(['636f6d2e6a6975616e2e414d56313200'], function (error, services) {
-                            services.map((service, index) => {
-                                console.log(service.uuid);
-                            })
+    //先扫描是否存在这个设备
+    peripheral = scanDevice(macAddress);
+    if (peripheral) {
+        //连接设备（相当于gatttool的connect）
+        peripheral
+            .connect(function (error) {
+                if (error) {
+                    console.log('an error occurred in peripheral.connect to: ' + peripheral.uuid.toUpCase());
+                }
+                console.log('connected to device: ' + peripheral.uuid.toUpCase());
+                peripheral.discoverServices(['636f6d2e6a6975616e2e414d56313200'], function (error, services) {
+                    services.map((service, index) => {
+                        console.log(service.uuid);
+                    });
 
-                        })
-                })
-            })
-        }
-    });
+                });
+            });
+    }
+
 };
