@@ -5,7 +5,7 @@ export const sendData = (macAddress, command) => {};
 
 export const discoveryServices = (macAddress) => {
     //先扫描是否存在这个设备
-    peripheral = scanDevice(macAddress);
+    const peripheral = scanDevice(macAddress);
     if (peripheral) {
         //连接设备（相当于gatttool的connect）
         peripheral
