@@ -42,7 +42,7 @@ export const promise = new Promise(function (resolve, reject) {
             console.log(`device ${ '00:4d:32:07:90:4b'} is found.`);
             return resolve(peripheral);
         } else {
-            reject(new Error('not found'));
+            //reject(new Error('not found'));
         }
     });
 });
