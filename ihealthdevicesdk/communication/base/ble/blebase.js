@@ -43,7 +43,7 @@ export const discoveryOneCharacteristics = (service, characteristicsUuid) => {
     const promise = new Promise(function (resolve, reject) {
         //查找特性
         service
-            .discoverCharacteristics([], function (error, characteristics) {
+            .discoverCharacteristics([characteristicsUuid], function (error, characteristics) {
                 if (error) {
                     reject(error);
                 } else {
