@@ -22,6 +22,14 @@ export const discoveryServices = (macAddress, serviceUuidArr) => {
                                 reject(error);
                             } else {
                                 console.log(`services ${serviceUuidArr.join(',')} are found.`);
+
+                                service.discoverCharacteristics([], function (error, characteristics) {
+                                    characteristics
+                                        .map(function (characteristic, index) {
+                                            console.log(`this is the ${index} characteristic,uuid:${ '' + characteristic.uuid}`);
+
+                                        });
+                                })
                                 resolve(services);
                             }
 
