@@ -1,8 +1,8 @@
 var noble = require('noble');
 
-export const sendData = ({macAddress, command}) => {};
+export const sendData = (macAddress, command) => {};
 
-export const discoveryServices = ({macAddress}) => {
+export const discoveryServices = (macAddress) => {
     console.log(macAddress);
     noble.on('discover', function (peripheral) {
         peripheral
