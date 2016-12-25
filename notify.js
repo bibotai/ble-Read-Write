@@ -10,7 +10,7 @@ noble.on('stateChange', function (state) {
         console.log('poweredOn');
         noble.startScanning();
     } else {
-        console.log('poweredOn');
+        console.log('poweredOff');
         noble.stopScanning();
 
     }

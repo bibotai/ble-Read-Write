@@ -1,5 +1,16 @@
 var noble = require('noble');
 
+noble.on('stateChange', function (state) {
+    if (state === 'poweredOn') {
+        console.log('poweredOn');
+        noble.startScanning();
+    } else {
+        console.log('poweredOff');
+        noble.stopScanning();
+
+    }
+});
+
 export const sendData = (macAddress, command) => {};
 
 export const discoveryServices = (macAddress) => {
