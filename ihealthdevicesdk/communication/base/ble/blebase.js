@@ -94,7 +94,6 @@ export const readCharacteristics = (characteristics) => {
                 console.log(`an error occurred in readCharacteristics`)
             } else {
                 console.log(`read data ${data} from ${characteristics.uuid}`)
-                return data;
             }
         });
 }
