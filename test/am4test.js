@@ -2,9 +2,10 @@ import {discoveryOneServices, discoveryOneCharacteristics, setNoifty, writeChara
 const peripheralIdOrAddress = process
     .argv[2]
     .toLowerCase();
+const writecharacteristic
 console.log(peripheralIdOrAddress);
 discoveryOneServices(peripheralIdOrAddress, '636f6d2e6a6975616e2e414d56313200').then((service) => {
-    discoveryOneCharacteristics(service, '7365642e6a6975616e2e414d56313200', function (error) {
+    discoveryOneCharacteristics(service, '7265632e6a6975616e2e414d56313200', function (error) {
         console.log(error)
     }).then((characteristic) => {
         setNoifty(characteristic, true).then(discoveryOneCharacteristics(service, '7265632e6a6975616e2e414d56313200',).then((writecharacteristic) => {
