@@ -10,24 +10,24 @@ export const discoveryServices = (macAddress, serviceUuidArr) => {
             .then((peripheral) => {
                 console.log('then')
                 if (peripheral) {
-                    console.log(peripheral);
                     //连接设备（相当于gatttool的connect）
-                    peripheral.connect(function (error) {
-                        if (error) {
-                            console.log('an error occurred in peripheral.connect to: ' + peripheral.uuid);
-                        }
-                        console.log('connected to device: ' + peripheral.uuid);
-                        //查找服务
-                        peripheral.discoverServices(serviceUuidArr, function (error, services) {
+                    peripheral
+                        .connect(function (error) {
                             if (error) {
-                                reject(error);
-                            } else {
-                                console.log(`services ${serviceUuidArr.join(',')} are found.`);
-                                resolve(services);
+                                console.log('an error occurred in peripheral.connect to: ' + peripheral.uuid);
                             }
+                            console.log('connected to device: ' + peripheral.uuid);
+                            //查找服务
+                            peripheral.discoverServices(serviceUuidArr, function (error, services) {
+                                if (error) {
+                                    reject(error);
+                                } else {
+                                    console.log(`services ${serviceUuidArr.join(',')} are found.`);
+                                    resolve(services);
+                                }
 
+                            });
                         });
-                    });
                 } else {
                     console.log(`device ${macAddress} is not found.`);
                 }
