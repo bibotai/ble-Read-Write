@@ -1,12 +1,12 @@
 var noble = require('noble');
-import {scanDevice} from './blescan';
+import {scanDevice, promise} from './blescan';
 
 export const sendData = (macAddress, command) => {};
 
 export const discoveryServices = (macAddress) => {
     //先扫描是否存在这个设备
-    console.log(scanDevice(macAddress));
-    scanDevice(macAddress).then((peripheral) => {
+    console.log(promise);
+    promise.then((peripheral) => {
         if (peripheral) {
             //连接设备（相当于gatttool的connect）
             peripheral
