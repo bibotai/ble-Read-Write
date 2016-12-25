@@ -12,6 +12,7 @@ export const discoveryServices = ({macAddress}) => {
                             // console.log('connected to peripheral: ' + peripheral.uuid);
                             peripheral
                                 .discoverServices([], function (error, services) {
+                                    console.log(services.length);
                                     services.map((service, index) => {
                                         console.log(service.uuid);
                                     })
