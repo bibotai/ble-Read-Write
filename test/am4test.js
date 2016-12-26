@@ -8,7 +8,7 @@ const writeCharacteristic = null;
 
 const interval = setInterval(function () {
     if (notifyCharacteristic) {
-        console.log('has notifyCharacteristic      ');
+        console.log('has notifyCharacteristic  ');
         readCharacteristics(notifyCharacteristic);
         clearInterval(interval);
     }
