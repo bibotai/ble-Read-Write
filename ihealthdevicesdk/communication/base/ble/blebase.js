@@ -21,7 +21,7 @@ export const discoveryOneServices = (macAddress, serviceUuid) => {
                             if (error) {
                                 reject(error);
                             } else {
-                                console.log(`services ${serviceUuid} is found.`);
+                                console.log(`service ${serviceUuid} is found.`);
                                 resolve(services[0]);
                             }
 
@@ -57,44 +57,34 @@ export const discoveryOneCharacteristics = (service, characteristicsUuid) => {
 }
 
 export const setNoifty = (characteristics, isListing) => {
-    console.log('start setNoifty...');
-    const promise = new Promise(function (resolve, reject) {
-        characteristics
-            .notify(true, function (error) {
-                if (error) {
-                    reject(error);
-                } else {
-                    console.log(`characteristic ${characteristics.uuid} noifty set to ${isListing}`);
-                    resolve(true)
-                }
-            });
+    console.log(`start setNoifty to ${characteristics.uuid}...`);
+    characteristics.notify(isListing, function (error) {
+        console.log(`characteristic notify`);
+        if (error) {
+            console.log(`an error occurred in setNoifty`)
+        } else {
+            console.log(`characteristic ${characteristics.uuid} noifty set to ${isListing}`);
+
+        }
     });
-    return promise;
 }
 
 export const writeCharacteristics = (characteristics, data) => {
-    const promise = new Promise(function (resolve, reject) {
-        characteristics
-            .write(data, true, function (error) {
-                if (error) {
-                    reject(error);
-                } else {
-                    console.log(`write data ${data} to ${characteristics.uuid}`)
-                    resolve(true)
-                }
-            });
-    });
-    return promise;
-}
-
-export const readCharacteristics = (characteristics) => {
-
     characteristics
-        .on('read', function (data, isNotification) {
+        .write(data, true, function (error) {
             if (error) {
-                console.log(`an error occurred in readCharacteristics`)
+                console.log(`an error occurred in writeCharacteristics`);
             } else {
-                console.log(`read data ${data} from ${characteristics.uuid}`)
+                console.log(`write data ${data} to ${characteristics.uuid}`)
             }
         });
+}
+
+export const readCharacteristics = (characteristics, callback) => {
+    console.log(`start reading data from ${characteristics.uuid}...`)
+    characteristics.on('read', function (data, isNotification) {
+        console.log(`the characteristics[0] response is: ${data}`);
+        callback(data);
+
+    });
 }

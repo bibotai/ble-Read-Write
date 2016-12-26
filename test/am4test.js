@@ -3,26 +3,21 @@ const peripheralIdOrAddress = process
     .argv[2]
     .toLowerCase();
 
-const notifyCharacteristic = null;
-const writeCharacteristic = null;
-
-const interval = setInterval(function () {
-    if (notifyCharacteristic) {
-        console.log('has notifyCharacteristic  ');
-        readCharacteristics(notifyCharacteristic);
-        clearInterval(interval);
-    }
-})
+let notifyCharacteristic = null;
+let writeCharacteristic = null;
+let notifyservice = null;
 
 console.log(peripheralIdOrAddress);
 discoveryOneServices(peripheralIdOrAddress, '636f6d2e6a6975616e2e414d56313200').then((service) => {
-    discoveryOneCharacteristics(service, '7265632e6a6975616e2e414d56313200', function (error) {
-        console.log(error)
-    }).then((characteristic) => {
-        this.notifyCharacteristic = characteristic;
-        setNoifty(characteristic, true).then(discoveryOneCharacteristics(service, '7365642e6a6975616e2e414d56313200').then((characteristic) => {
-            this.writeCharacteristic = characteristic;
-            writeCharacteristics(characteristic, new Buffer([
+    notifyservice = service;
+    discoveryOneCharacteristics(service, '7365642e6a6975616e2e414d56313200').then((characteristic) => {
+        notifyCharacteristic = characteristic;
+        //开启通知监听
+        setNoifty(notifyCharacteristic, true);
+        discoveryOneCharacteristics(service, '7265632e6a6975616e2e414d56313200').then((characteristic) => {
+            // console.log(characteristic);
+            writeCharacteristic = characteristic
+            writeCharacteristics(writeCharacteristic, new Buffer([
                 0xb0,
                 0x11,
                 0x11,
@@ -43,7 +38,20 @@ discoveryOneServices(peripheralIdOrAddress, '636f6d2e6a6975616e2e414d56313200').
                 0x45,
                 0x54,
                 0x0c
-            ]))
-        }))
+            ]));
+            const data = readCharacteristics(notifyCharacteristic, function (data) {
+                let dataarr = [];
+                for (let i = 0; i < data.length; i++) {
+                    let tmp = data[i].toString(16);
+                    if (tmp.length == 1) {
+                        tmp = '0' + tmp;
+                    }
+                    dataarr[i] = tmp;
+                }
+                console.log(`the data is ${dataarr.join(' ')}`);
+            });
+
+        });
+
     });
 });
