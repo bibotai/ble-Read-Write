@@ -1,5 +1,5 @@
 ## 设备连接
-![image](./doc/connect.png)
+![image](./doc/picture/connect.png)
 
 ## 认证
-![image](./doc/auth.png)
+![image](./doc/picture/auth.png)
