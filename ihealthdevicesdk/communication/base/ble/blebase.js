@@ -1,11 +1,14 @@
 var noble = require('noble');
+var async = require('async');
 import {scanDevice} from './blescan';
 
-export const sendData = (macAddress, command) => {};
+export const sendData = (macAddress, command) => {
+};
 
 export const discoveryOneServices = (macAddress, serviceUuid) => {
     const promise = new Promise(function (resolve, reject) {
         console.log('start discoveringServices... ');
+
         // 先扫描是否存在这个设备 console.log(scanDevice(macAddress));
         scanDevice(macAddress).then((peripheral) => {
             if (peripheral) {
@@ -24,7 +27,6 @@ export const discoveryOneServices = (macAddress, serviceUuid) => {
                                 console.log(`service ${serviceUuid} is found.`);
                                 resolve(services[0]);
                             }
-
                         });
                     });
             } else {
@@ -75,7 +77,7 @@ export const writeCharacteristics = (characteristics, data) => {
             if (error) {
                 console.log(`an error occurred in writeCharacteristics`);
             } else {
-                console.log(`write data ${data} to ${characteristics.uuid}`)
+                console.log(`write data ${data.toString('ascii')} to ${characteristics.uuid}`)
             }
         });
 }
@@ -83,8 +85,16 @@ export const writeCharacteristics = (characteristics, data) => {
 export const readCharacteristics = (characteristics, callback) => {
     console.log(`start reading data from ${characteristics.uuid}...`)
     characteristics.on('read', function (data, isNotification) {
-        console.log(`the characteristics[0] response is: ${data}`);
+        console.log(`the characteristics[0] response is: ${data.toString('ascii')}`);
         callback(data);
 
     });
 }
+
+export const disconnect = ()=> {
+    process.exit(0);
+
+}
+
+
+
