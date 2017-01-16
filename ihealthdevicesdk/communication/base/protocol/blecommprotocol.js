@@ -49,7 +49,7 @@ const getSendStatus = ()=> {
 export const packageData = (mac, data) => {
     data.forEach(function (item) {
         dataGueue.unshift(item);
-        console.log("dataGueue" + item.toString(16))
+        //console.log("dataGueue" + item.toString(16))
     });
     let dataarr = [];
     for (let i = 0; i < dataGueue.length; i++) {
@@ -93,7 +93,9 @@ export const packageData = (mac, data) => {
 
                     console.log("开始收包   *************************************");
                     //收包解包
-                    onCharacteristicChanged(mac, data, 0);
+                    onCharacteristicChanged(mac, data, 0).then((req)=>{
+                        console.log("onCharacteristicChanged:"+req);
+                    });
 
                     //断开
                     //disconnect();

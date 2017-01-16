@@ -11,6 +11,7 @@ let THIS_PACKAGEDATA = 103;
 let mCommandId, sequenceIdBuffer;
 let readBuffer = new Map();
 
+
 const checkPackageRange = (sequenceId)=> {
     const promise = new Promise(function (resolve, reject) {
         let State = THIS_PACKAGEDATA;
@@ -21,11 +22,12 @@ const checkPackageRange = (sequenceId)=> {
             sequenceIdBuffer.forEach(function (item, index) {
                 //console.log("sequenceIdBuffer:" + item + "(" + index + ")" + sequenceId);
                 if (item === sequenceId) {
-                    //console.log("THIS_PACKAGEDATA" + THIS_PACKAGEDATA);
                     State = THIS_PACKAGEDATA;
                 }
+                if (index === (sequenceId.length - 1)) {
+                    State = NEXT_PACKAGEDATA;
+                }
             })
-            State = NEXT_PACKAGEDATA;
         }
         resolve(State);
     })
@@ -61,7 +63,7 @@ const resetSequenceIdBuffer = (allPackageNum, subPackageNum, sequenceId)=> {
 
 const finishPackageData = ()=> {
     let commandsum = 0;
-
+    //console.log("finishPackageData:")
     readBuffer.forEach(function (item, index) {
         commandsum += item.length;
     })
@@ -76,11 +78,15 @@ const finishPackageData = ()=> {
             index += 1;
         }
     }
-    haveNewData(mCommandId, 0, command);
+    haveNewData(mCommandId, 0, command).then((req)=>{
+        console.log("haveNewData:"+req);
+    });
 };
 
 const checkSequenceIdBuffer = (allPackageNum, subPackageNum, sequenceId, data)=> {
+    //console.log("checkSequenceIdBuffer2:"+sequenceId+","+readBuffer.get(sequenceId));
     if (readBuffer.get(sequenceId) == null) {
+        //console.log("checkSequenceIdBuffer3:"+readBuffer.size+","+allPackageNum);
         let temp;
         if ((allPackageNum - 1) == subPackageNum) {
             mCommandId = data[5] & 0xff;
@@ -90,44 +96,50 @@ const checkSequenceIdBuffer = (allPackageNum, subPackageNum, sequenceId, data)=>
             temp = bytesCuttForProductProtocol(5, data);
             readBuffer.set(sequenceId, temp);
         }
-        if (readBuffer.length == allPackageNum) {
+        //console.log("checkSequenceIdBuffer4:" + readBuffer.size + "," + allPackageNum);
+        if (readBuffer.size == allPackageNum) {
             finishPackageData();
         }
     }
 }
 
 export const unPackageData = (data)=> {
-    let stateId = data[2] & 0xff;
-    console.log("unPackageData-init" + stateId);
-    if (stateId === 0 || stateId === 0xf0) {
-        console.log("unPackageData-stateId=0：" + stateId);
-        let commandId = data[5] & 0xff;
-        let temp = bytesCuttForProductProtocol(6, data);
-        haveNewData(commandId, 0, temp);
-    } else if (stateId < 0xA0) {
-        console.log("unPackageData-stateId < 0xA0：" + stateId);
-        let allPackageNum = (stateId >> 4) + 1;
-        let subPackageNum = stateId & 0x0f;
-        let sequenceId = data[3] & 0xff;
+    const promise=new Promise(function(resolve,reject){
+        let stateId = data[2] & 0xff;
+        //console.log("unPackageData-init" + stateId + "," + data[2]);
+        if (stateId === 0 || stateId === 0xf0) {
+            //console.log("unPackageData-stateId=0：" + stateId);
+            let commandId = data[5] & 0xff;
+            let temp = bytesCuttForProductProtocol(6, data);
+            haveNewData(commandId, 0, temp);
+        } else if (stateId < 0xA0) {
 
-        checkPackageRange(sequenceId).then((packagedata)=> {
-            console.log("unPackageData-sequenceId：" + sequenceId + "," + packagedata);
-            switch (packagedata) {
-                case NEXT_PACKAGEDATA:
-                    mCommandId = 0;
-                    readBuffer.clear();
-                case NEW_PACKAGEDATA:
-                    resetSequenceIdBuffer(allPackageNum, subPackageNum, sequenceId);
+            let allPackageNum = (stateId >> 4) + 1;
+            //console.log("unPackageData-allPackageNum：" + allPackageNum);
+            let subPackageNum = stateId & 0x0f;
+            let sequenceId = data[3] & 0xff;
 
-                case THIS_PACKAGEDATA:
-                    checkSequenceIdBuffer(allPackageNum, subPackageNum, sequenceId, data);
-                    break;
+            checkPackageRange(sequenceId).then((packagedata)=> {
+                //console.log("unPackageData-sequenceId：" + sequenceId + "," + packagedata);
+                switch (packagedata) {
+                    case NEXT_PACKAGEDATA:
+                        mCommandId = 0;
+                        readBuffer.clear();
+                    case NEW_PACKAGEDATA:
+                        resetSequenceIdBuffer(allPackageNum, subPackageNum, sequenceId);
 
-                default:
-                    break;
-            }
-        })
+                    case THIS_PACKAGEDATA:
+                        //console.log("checkSequenceIdBuffer1：" + packagedata + "," + THIS_PACKAGEDATA);
+                        checkSequenceIdBuffer(allPackageNum, subPackageNum, sequenceId, data);
+                        break;
+                    default:
+                        break;
+                }
+            })
+        }
+        resolve("unPackageData ok");
+    })
+    return promise;
 
 
-    }
 }
