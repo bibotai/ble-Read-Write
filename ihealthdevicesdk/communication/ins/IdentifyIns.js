@@ -16,12 +16,7 @@ let R2 = new Buffer(16);// R2——对R2'解密后生成的R2
 let deviceID = new Buffer(16);// 下位机传上来的产品ID
 let k = new Buffer(16);
 
-let KeyOut = new Buffer([
-    0x43, 0x68, 0x2F, 0x48,
-    0x51, 0x34, 0x4C, 0x7A,
-    0x49, 0x74, 0x59, 0x54,
-    0x34, 0x32, 0x73, 0x3D
-])
+
 
 export const identify = (deviceType)=> {
     let r1 = setR1();
